@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#0b0f17" />
+    <meta name="description" content="Hollowmere: a detective mystery in a village lost to the fog. Two hundred and twelve souls vanished in one night." />
+    <title>Hollowmere</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0f17'/%3E%3Cpath d='M32 12l9 10v4H23v-4z' fill='%23f2b56b'/%3E%3Crect x='25' y='26' width='14' height='18' rx='2' fill='%23ffd28a'/%3E%3Crect x='23' y='44' width='18' height='5' rx='2' fill='%23f2b56b'/%3E%3C/svg%3E" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,400..600,0..100,0..1;1,9..144,400..600,0..100,0..1&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <canvas id="scene" aria-label="The village of Hollowmere at night in winter rain"></canvas>
+
+    <div id="loader" class="loader" role="status">
+      <div class="loader__mark">Hollowmere</div>
+      <div class="loader__bar"><span></span></div>
+      <div class="loader__text">Raising the fog</div>
+    </div>
+
+    <div class="scrim scrim--title" id="scrim-title"></div>
+
+    <main id="title" class="title" hidden>
+      <header class="brand">
+        <h1 class="wordmark">Hollowmere</h1>
+        <p class="tagline">A whole village vanished in one night of fog. You are the first to come looking.</p>
+      </header>
+      <nav class="menu" aria-label="Main menu">
+        <button class="menu__item" data-action="cases">Cases</button>
+        <button class="menu__item" data-action="settings">Settings</button>
+        <button class="menu__item" data-action="credits">Credits</button>
+      </nav>
+    </main>
+
+    <section id="panel" class="panel" hidden aria-live="polite"></section>
+
+    <div class="corner corner--tr" id="corner-tools" hidden>
+      <button class="icon-btn" id="btn-sound" aria-label="Mute sound" title="Sound">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path class="i-on" d="M4 9h3l5-4v14l-5-4H4z M16 8.5a5 5 0 0 1 0 7 M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path class="i-off" d="M4 9h3l5-4v14l-5-4H4z M16 9l5 6 M21 9l-5 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="icon-btn" id="btn-full" aria-label="Toggle fullscreen" title="Fullscreen">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 9V4h5 M15 4h5v5 M20 15v5h-5 M9 20H4v-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+
+    <p class="hint" id="hint" hidden>
+      <span>Press W or click the street to explore</span><span>Click an object to inspect it</span><span>Drag to turn</span>
+    </p>
+    <p class="hint" id="hint-explore" hidden>
+      <span>WASD or click to walk</span><span>Shift to hurry</span><span>Drag to look around</span><span>Scroll to zoom</span><span>Esc for the menu</span>
+    </p>
+    <p class="version" id="version" hidden>v0.1.0 prologue | build 1</p>
+
+    <div id="tooltip" class="tooltip" role="tooltip"></div>
+
+    <aside id="note" class="note" hidden>
+      <p class="note__label">Detective's note</p>
+      <h2 class="note__title"></h2>
+      <p class="note__text"></p>
+      <p class="note__chapter" hidden></p>
+    </aside>
+
+    <div id="card" class="card" hidden>
+      <p class="card__num case-tag"></p>
+      <h2 class="card__title"></h2>
+      <div class="card__rule"></div>
+      <p class="card__text"></p>
+      <p class="card__meta"></p>
+      <div class="card__btns"><button class="card__btn" id="card-back">Return to the village</button><button class="card__btn card__btn--quiet" id="card-alt" hidden>Leave</button></div>
+    </div>
+
+    <div id="letter" class="letter" hidden>
+      <div class="letter__frame">
+        <article class="letter__panel" role="dialog" aria-modal="true" aria-labelledby="letter-title">
+          <header class="letter__head">
+            <p class="case-tag letter__tag"></p>
+            <h2 class="letter__title" id="letter-title">A letter for the detective</h2>
+            <p class="letter__date"></p>
+          </header>
+          <div class="letter__body"></div>
+          <p class="letter__label"></p>
+          <ul class="letter__people"></ul>
+          <p class="letter__after"></p>
+          <div class="letter__rules"><span class="lanterns letter__lanterns"></span><p class="letter__rules-text"></p></div>
+          <p class="letter__warn"></p>
+          <footer class="letter__foot">
+            <p class="letter__sign"></p>
+            <button class="letter__go" type="button">Start the investigation</button>
+          </footer>
+        </article>
+      </div>
+    </div>
+
+    <div id="case-hud" class="case-hud" hidden>
+      <p class="case-hud__tag"></p>
+      <p class="case-hud__goal"></p>
+    </div>
+
+    <div id="toast" class="toast" hidden></div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
